@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FinTech task</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <a class="navbar-brand" href="#">Navbar</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/user">User list</a>
+            </li>
+            <li th:if="${currentUser.role.name()} == 'ADMIN'" class="nav-item active">
+                <a class="nav-link" href="/user/new">Create user</a>
+            </li>
+        </ul>
+    </div>
+    <form th:action="@{/logout}" method="post" class="form-inline">
+        <input class="btn btn-primary" type="submit" value="Sign Out"/>
+    </form>
+</nav>
+
+<div class="conteiner mt-1">
+    <div class="row ml-2 mr-2">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">About user account</th>
+                <th scope="col">Edit user</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${page.getContent()}">
+                <td th:utext="${user.username}"/>
+                <td th:utext="${user.firstName}"/>
+                <td th:utext="${user.lastName}"/>
+                <td>
+                    <a th:href="@{'/user/' + ${user.id}}">
+                        <img src="https://img.icons8.com/android/24/000000/user.png">
+                    </a>
+                </td>
+                <th th:if="${currentUser.role.name()} == 'ADMIN'">
+                    <a th:href="@{'/user/' + ${user.id} + '/edit'}">
+                        <img src="https://img.icons8.com/material/24/000000/change-user-female.png">
+                    </a>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row ml-2 mr-2">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${page.hasPrevious()}">
+                    <a class="page-link" th:href="@{/user(page=${page.number - 1}, size=${page.size})}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}">
+                    <a class="page-link" th:href="@{/user(page=${i}, size=${page.size})}">[[${i}+1]]</a>
+                </li>
+
+                <li class="page-item" th:if="${page.hasNext()}">
+                    <a class="page-link" th:href="@{/user(page=${page.number + 1}, size=${page.size})}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+</div>
+
+</body>
+</html>

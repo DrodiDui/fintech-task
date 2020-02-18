@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>FinTech task</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+    <a class="navbar-brand" href="#">Navbar</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/user">User list</a>
+            </li>
+            <li th:if="${currentUser.role.name()} == 'ADMIN'" class="nav-item active">
+                <a class="nav-link" href="/user/new">Create user</a>
+            </li>
+        </ul>
+    </div>
+    <form th:action="@{/logout}" method="post" class="form-inline">
+        <input class="btn btn-primary" type="submit" value="Sign Out"/>
+    </form>
+</nav>
+
+<div class="conteiner mt-5 st-5 sb-5">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">Role</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created at</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:utext="${userAccount.username}"/>
+                <td th:utext="${userAccount.firstName}"/>
+                <td th:utext="${userAccount.lastName}"/>
+                <td th:utext="${userAccount.role.name().toString()}"/>
+                <td th:utext="${userAccount.status.name().toString()}"/>
+                <td th:utext="${#dates.format(userAccount.getCreatedAt(), 'dd MM yyyy HH:mm')}"/>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${currentUser.role.name()} == 'ADMIN'">
+        <form method="post" th:action="@{'/user/' + ${userAccount.id}}">
+            <input class="btn btn-primary" type="submit" value="Lock/Unlock">
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
+
