@@ -13,7 +13,7 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/user">FinTech Task</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -38,6 +38,7 @@
                 <th scope="col">Username</th>
                 <th scope="col">First name</th>
                 <th scope="col">Last name</th>
+                <th scope="col">Role</th>
                 <th scope="col">About user account</th>
                 <th scope="col">Edit user</th>
             </tr>
@@ -47,6 +48,7 @@
                 <td th:utext="${user.username}"/>
                 <td th:utext="${user.firstName}"/>
                 <td th:utext="${user.lastName}"/>
+                <td th:utext="${user.role}"></td>
                 <td>
                     <a th:href="@{'/user/' + ${user.id}}">
                         <img src="https://img.icons8.com/android/24/000000/user.png">
@@ -62,7 +64,7 @@
         </table>
     </div>
 
-    <div class="row ml-2 mr-2">
+    <div class="row ml-2 mr-2" th:if="${page.getTotalElements() > 10}">
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${page.hasPrevious()}">

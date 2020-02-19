@@ -6,10 +6,11 @@ import by.kapitonov.fintech.task.model.Status;
 import by.kapitonov.fintech.task.model.UserAccount;
 import by.kapitonov.fintech.task.repository.UserAccountRepository;
 import by.kapitonov.fintech.task.util.UserAccountValidator;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +30,15 @@ public class UserAccountService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Page<UserAccount> getAllUserAccounts(Pageable pageable) {
-        return userAccountRepository.findAll(pageable);
+    public Page<UserAccount> getAllUserAccounts(Pageable pageable) throws UserAccountException {
+
+        Page<UserAccount> page = userAccountRepository.findAll(pageable);
+
+        if (page.getContent() == null) {
+            throw new UserAccountException("UserAccounts haven't been found");
+        }
+
+        return page;
     }
 
     public Optional<UserAccount> getById(Long id) throws UserAccountException {

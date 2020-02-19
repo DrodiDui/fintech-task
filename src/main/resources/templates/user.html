@@ -13,7 +13,7 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="/user">FinTech Task</a>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -48,8 +48,8 @@
                 <td th:utext="${userAccount.username}"/>
                 <td th:utext="${userAccount.firstName}"/>
                 <td th:utext="${userAccount.lastName}"/>
-                <td th:utext="${userAccount.role.name().toString()}"/>
-                <td th:utext="${userAccount.status.name().toString()}"/>
+                <td th:utext="${userAccount.role}"/>
+                <td th:utext="${userAccount.status}"/>
                 <td th:utext="${#dates.format(userAccount.getCreatedAt(), 'dd MM yyyy HH:mm')}"/>
             </tr>
             </tbody>
