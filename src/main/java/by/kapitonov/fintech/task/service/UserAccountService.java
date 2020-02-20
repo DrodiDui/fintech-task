@@ -2,20 +2,18 @@ package by.kapitonov.fintech.task.service;
 
 import by.kapitonov.fintech.task.dto.UserAccountDTO;
 import by.kapitonov.fintech.task.exception.UserAccountException;
+import by.kapitonov.fintech.task.model.Role;
 import by.kapitonov.fintech.task.model.Status;
 import by.kapitonov.fintech.task.model.UserAccount;
 import by.kapitonov.fintech.task.repository.UserAccountRepository;
 import by.kapitonov.fintech.task.util.UserAccountValidator;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -69,8 +67,8 @@ public class UserAccountService {
                 .password(hashPassword)
                 .firstName(userAccount.getFirstName())
                 .lastName(userAccount.getLastName())
-                .role(userAccount.getRole())
-                .status(userAccount.getStatus())
+                .role(Role.USER)
+                .status(Status.INACTIVE)
                 .createdAt(Instant.now())
                 .build();
 

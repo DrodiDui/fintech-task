@@ -1,14 +1,16 @@
 package by.kapitonov.fintech.task.dto;
 
-import by.kapitonov.fintech.task.model.Role;
-import by.kapitonov.fintech.task.model.Status;
-import lombok.Data;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class UserAccountDTO {
 
     @NotBlank
@@ -18,7 +20,7 @@ public class UserAccountDTO {
 
     @NotBlank
     @Size(min = 3, max = 16)
-    @Pattern(regexp = "^[A-Za-z]{3,16}$")
+    @Pattern(regexp = "^[A-Za-z0-9]{3,16}$")
     private String password;
 
     @NotBlank
@@ -31,7 +33,7 @@ public class UserAccountDTO {
     @Pattern(regexp = "^[A-Za-z]{1,16}$")
     private String lastName;
 
-    private Role role;
+   /* private Role role;
 
-    private Status status;
+    private Status status;*/
 }

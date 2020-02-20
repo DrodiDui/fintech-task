@@ -10,7 +10,9 @@ import by.kapitonov.fintech.task.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -35,17 +37,21 @@ public class AdminUserAccountController {
         return "redirect:/user/" + id;
     }
 
+
     @GetMapping("/user/new")
-    public String loadCreatUserPage(Model model) throws UserAccountException {
-        Optional<UserAccount> currentUser = userAccountService.getByUsername(SecurityUtil.getCurrentUserUsername());
-        model.addAttribute("currentUser", currentUser.get());
+    public String loadCreateUserPage(UserAccountDTO userAccountDTO, Model model) {
         model.addAttribute("roles", Role.values());
         model.addAttribute("statuses", Status.values());
         return "createUser";
     }
 
     @PostMapping("/user/new")
-    public String createNewUser(Model model, @Valid UserAccountDTO userAccountDTO) {
+    public String createUserAccount(@Valid@ModelAttribute(value = "userAccountDTO")UserAccountDTO userAccountDTO,
+                                    BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "createUser";
+        }
 
         userAccountService.create(userAccountDTO);
 
@@ -62,7 +68,8 @@ public class AdminUserAccountController {
     }
 
     @PostMapping("/user/{id}/edit")
-    public String updateUserAccount(@PathVariable(name = "id")Long id, UserAccountDTO userAccountDTO) {
+    public String updateUserAccount(@PathVariable(name = "id")Long id,
+                                    UserAccountDTO userAccountDTO) {
 
         userAccountService.update(id, userAccountDTO);
 

@@ -19,9 +19,6 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/user">User list</a>
             </li>
-            <li th:if="${currentUser.role.name()} == 'ADMIN'" class="nav-item active">
-                <a class="nav-link" href="/user/new">Create user</a>
-            </li>
         </ul>
     </div>
     <form th:action="@{/logout}" method="post" class="form-inline">
@@ -31,29 +28,41 @@
 
 <div class="conteiner mt-5 st-5">
     <div class="row justify-content-center">
-        <form th:action="@{/user/new}" method="post">
+        <form action="#" th:action="@{'/user/new'}" method="post" th:object="${userAccountDTO}">
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="Username">Username</label>
-                    <input type="text" class="form-control" id="Username" name="username" pattern="[A-Za-z]{3,16}">
+                    <input type="text" class="form-control" id="Username" name="username" th:field="*{username}">
+                    <div class="valid-form" th:if="${#fields.hasErrors()}" th:errors="*{username}">
+                        Invalid username
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="Password">Password</label>
-                    <input type="password" class="form-control" id="Password" name="password" pattern="[A-Za-z0-9]{3,16}">
+                    <input type="password" class="form-control" id="Password" name="password" th:field="*{password}">
+                    <div class="valid-form" th:if="${#fields.hasErrors()}" th:errors="*{password}">
+                        Invalid password
+                    </div>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="FirstName">First name</label>
-                    <input type="text" class="form-control" id="FirstName" name="firstName" pattern="[A-Za-z]{1,16}">
+                    <input type="text" class="form-control" id="FirstName" name="firstName" th:field="*{firstName}">
+                    <div class="valid-form" th:if="${#fields.hasErrors()}" th:errors="*{firstName}">
+                        Invalid first name
+                    </div>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="LastName">Last name</label>
-                    <input type="text" class="form-control" id="LastName" name="lastName" pattern="[A-Za-z]{1,16}">
+                    <input type="text" class="form-control" id="LastName" name="lastName" th:field="*{lastName}">
+                    <div class="valid-form" th:if="${#fields.hasErrors()}" th:errors="*{lastName}">
+                        Invalid last name
+                    </div>
                 </div>
             </div>
 
