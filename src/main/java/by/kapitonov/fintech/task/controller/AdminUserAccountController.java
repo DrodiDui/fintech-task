@@ -7,6 +7,7 @@ import by.kapitonov.fintech.task.model.Status;
 import by.kapitonov.fintech.task.model.UserAccount;
 import by.kapitonov.fintech.task.security.SecurityUtil;
 import by.kapitonov.fintech.task.service.UserAccountService;
+import by.kapitonov.fintech.task.util.UserAccountValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,12 @@ import java.util.Optional;
 public class AdminUserAccountController {
 
     private final UserAccountService userAccountService;
+    private final UserAccountValidator userAccountValidator;
 
     @Autowired
-    public AdminUserAccountController(UserAccountService userAccountService) {
+    public AdminUserAccountController(UserAccountService userAccountService, UserAccountValidator userAccountValidator) {
         this.userAccountService = userAccountService;
+        this.userAccountValidator = userAccountValidator;
     }
 
     @PostMapping("/user/{id}")
@@ -39,16 +42,14 @@ public class AdminUserAccountController {
 
 
     @GetMapping("/user/new")
-    public String loadCreateUserPage(UserAccountDTO userAccountDTO, Model model) {
-        model.addAttribute("roles", Role.values());
-        model.addAttribute("statuses", Status.values());
+    public String loadCreateUserPage(UserAccountDTO userAccountDTO) {
         return "createUser";
     }
 
     @PostMapping("/user/new")
     public String createUserAccount(@Valid@ModelAttribute(value = "userAccountDTO")UserAccountDTO userAccountDTO,
                                     BindingResult bindingResult) {
-
+        userAccountValidator.validate(userAccountDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             return "createUser";
         }

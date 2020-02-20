@@ -67,8 +67,8 @@ public class UserAccountService {
                 .password(hashPassword)
                 .firstName(userAccount.getFirstName())
                 .lastName(userAccount.getLastName())
-                .role(Role.USER)
-                .status(Status.INACTIVE)
+                .role(userAccount.getRole())
+                .status(userAccount.getStatus())
                 .createdAt(Instant.now())
                 .build();
 
